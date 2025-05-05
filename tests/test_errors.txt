@@ -1,0 +1,11 @@
+program ErrorTest {
+    var
+        123var : int;
+        x% : float;
+
+    main() {
+        print("String no cerrado);
+        y = 10..5;
+    }
+}
+end
