@@ -1,0 +1,20 @@
+program ControlTest {
+    var
+        i : int;
+        max : int;
+
+    main() {
+        max = 5;
+        i = 0;
+
+        while (i < max) do {
+            if (i == 3) {
+                print("Encontrado: 3");
+            } else {
+                print("Valor:", i);
+            }
+            i = i + 1;
+        }
+    }
+}
+end

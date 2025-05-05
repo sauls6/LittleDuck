@@ -1,0 +1,28 @@
+program CompleteTest {
+    var
+        a, b, c : int;
+        x, y : float;
+        name : int;
+
+    main() {
+        a = 5;
+        b = 10;
+        c = a + b * 2;
+
+        x = 3.14;
+        y = 2.71;
+
+        if (c > 20) {
+            print("c es mayor que 20");
+        } else {
+            print("c es menor o igual a 20");
+        }
+
+        name = 0;
+        while (name < 5) do {
+            print("Iteración:", name);
+            name = name + 1;
+        }
+    }
+}
+end
