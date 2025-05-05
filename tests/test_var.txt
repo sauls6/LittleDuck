@@ -1,0 +1,13 @@
+program VarTest {
+    var 
+        x, y : int;
+        z : float;
+    
+    main() {
+        x = 10;
+        y = 20;
+        z = 3.14;
+        print("x + y =", x + y);
+    }
+}
+end
