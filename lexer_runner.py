@@ -58,7 +58,7 @@ def tokenize_file(input_file):
     # Imprimir información de tokens
     print("TOKENS ENCONTRADOS:")
     print("-------------------")
-    print(f"{'TOKEN':<20} {'TIPO':<15} {'LÍNEA':<8} {'POSICIÓN':<8} {'TEXTO'}")
+    print(f"{'TOKEN':<12} {'TYPE':<8} {'LINE':<8} {'POS':<8} {'TEXT'}")
     print("-" * 70)
 
     # Contador para estadísticas
@@ -78,7 +78,7 @@ def tokenize_file(input_file):
         token_types[token_type_name] = token_types.get(token_type_name, 0) + 1
 
         # Mostrar información del token
-        print(f"{token_type_name:<20} {token.type:<15} {token.line:<8} {token.column:<8} '{token.text}'")
+        print(f"{token_type_name:<12} {token.type:<8} {token.line:<8} {token.column:<8} '{token.text}'")
 
     # Mostrar estadísticas
     print("\nESTADÍSTICAS:")
