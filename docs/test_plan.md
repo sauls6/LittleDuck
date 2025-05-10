@@ -147,11 +147,11 @@ end
 
 3. Ejecutar el analizador léxico en cada archivo de prueba:
    ```
-   python lexer_runner.py tests/test_min.txt
-   python lexer_runner.py tests/test_var.txt
-   python lexer_runner.py tests/test_control.txt
-   python lexer_runner.py tests/test_complete.txt
-   python lexer_runner.py tests/test_errors.txt
+   python lexer_runner.py tests/lexer/test_min.txt
+   python lexer_runner.py tests/lexer/test_var.txt
+   python lexer_runner.py tests/lexer/test_control.txt
+   python lexer_runner.py tests/lexer/test_complete.txt
+   python lexer_runner.py tests/lexer/test_errors.txt
    ```
 
 4. Verificar que los resultados coincidan con los esperados.

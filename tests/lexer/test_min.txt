@@ -1,6 +1,6 @@
-program MinTest {
-    main() {
+program MinTest;
+    main {
         print("Hello World");
     }
-}
+
 end
