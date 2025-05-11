@@ -15,6 +15,9 @@ Opciones:
 
 import sys
 import os
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 import antlr4
 from antlr4 import *

@@ -22,8 +22,8 @@ LBRACE     : '{';
 RBRACE     : '}';
 LPAREN     : '(';
 RPAREN     : ')';
-LSQUAR     : '[';
-RSQUAR     : ']';
+LBRACK     : '[';
+RBRACK     : ']';
 
 // Operadores
 ASSIGN     : '=';
@@ -57,7 +57,7 @@ vars
     ;
 
 funcs
-    : (VOID ID LPAREN param_list? RPAREN LSQUAR vars? body RSQUAR SEMI)+
+    : (VOID ID LPAREN param_list? RPAREN LBRACK vars? body RBRACK SEMI)+
     ;
 
 param_list

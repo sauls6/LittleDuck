@@ -10,6 +10,10 @@ Uso:
 
 import sys
 import os
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 from antlr4 import *
 from gen.LittleDuckLexer import LittleDuckLexer
 from antlr4.error.ErrorListener import ErrorListener
