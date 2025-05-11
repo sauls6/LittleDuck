@@ -1,0 +1,88 @@
+# test_complete.txt
+program CompleteTest {
+    var
+        a, b, c : int;
+        x, y : float;
+        name : int;
+
+    main() {
+        a = 5;
+        b = 10;
+        c = a + b * 2;
+
+        x = 3.14;
+        y = 2.71;
+
+        if (c > 20) {
+            print("c es mayor que 20");
+        } else {
+            print("c es menor o igual a 20");
+        }
+
+        name = 0;
+        while (name < 5) do {
+            print("Iteración:", name);
+            name = name + 1;
+        }
+    }
+}
+end
+
+# test_control.txt
+program ControlTest {
+    var
+        i : int;
+        max : int;
+
+    main() {
+        max = 5;
+        i = 0;
+
+        while (i < max) do {
+            if (i == 3) {
+                print("Encontrado: 3");
+            } else {
+                print("Valor:", i);
+            }
+            i = i + 1;
+        }
+    }
+}
+end
+
+# test_errors.txt
+program ErrorTest {
+    var
+        123var : int;
+        x% : float;
+
+    main() {
+        print("String no cerrado);
+        y = 10..5;
+    }
+}
+end
+
+# test_min.txt
+program MinTest;
+    main {
+        print("Hello World");
+    }
+
+end
+
+# test_var.txt
+program VarTest {
+    var 
+        x, y : int;
+        z : float;
+    
+    main() {
+        x = 10;
+        y = 20;
+        z = 3.14;
+        print("x + y =", x + y);
+    }
+}
+end
+

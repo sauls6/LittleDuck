@@ -1,0 +1,446 @@
+# test_advanced.txt
+program AdvancedTest;
+
+var
+    counter : int;
+    pi : float;
+
+void printSquare(num : int) [
+    var
+        square : int;
+    {
+        square = num * num;
+        print(num, "al cuadrado es", square);
+    }
+];
+
+void printCube(num : int) [
+    var
+        cube : int;
+    {
+        cube = num * num * num;
+        print(num, "al cubo es", cube);
+    }
+];
+
+void processNumber(n : int) [
+{
+    if (n > 10) {
+        printSquare(n);
+    } else {
+        printCube(n);
+    };
+}
+];
+
+main {
+    counter = 0;
+    pi = 3.14159;
+
+    while (counter < 15) do {
+        print("Procesando número:", counter);
+        processNumber(counter);
+        counter = counter + 1;
+    };
+
+    if (pi > 3.0) {
+        print("Pi es mayor que 3");
+        if (pi < 4.0) {
+            print("Pi está entre 3 y 4");
+        } else {
+            print("Pi es mayor o igual a 4");
+        };
+    };
+}
+end
+
+# test_assign_simple.txt
+program AssignSimple;
+var
+    x : int;
+main {
+    x = 42;
+}
+end
+
+# test_complete_valid.txt
+program CompleteTest;
+
+var
+    a, b, c : int;
+    x, y : float;
+
+void calculate(val : int, factor : float) [
+    var
+        result : float;
+    {
+        result = val * factor;
+        print("Resultado:", result);
+    }
+];
+
+main {
+    a = 5;
+    b = 10;
+    c = a + b;
+
+    x = 3.14;
+    y = 2.71;
+
+    if (c > 10) {
+        print("c es mayor que 10");
+        calculate(c, x);
+    } else {
+        print("c es menor o igual a 10");
+    };
+
+    while (a > 0) do {
+        print("a =", a);
+        a = a - 1;
+    };
+}
+end
+
+# test_complex_expr.txt
+program ComplexExpr;
+var
+    r : float;
+main {
+    r = ((5 + 3) * (2 - 1)) / (4.0 + (2.0 * 3.0));
+    print("Resultado:", r);
+}
+end
+
+# test_condition.txt
+program ConditionTest;
+var
+    x : int;
+main {
+    x = 10;
+    if (x > 5) {
+        print("x es mayor que 5");
+    } else {
+        print("x es menor o igual a 5");
+    };
+}
+end
+
+# test_cycle.txt
+program CycleTest;
+var
+    i : int;
+main {
+    i = 0;
+    while (i < 5) do {
+        print("i =", i);
+        i = i + 1;
+    };
+}
+end
+
+# test_expr_bad_order.txt
+program ExprBadOrder;
+var
+    x : int;
+main {
+    x = * 5 + 3;
+}
+end
+
+# test_expr_compare.txt
+program ExprCompare;
+var
+    a, b : int;
+main {
+    a = 10;
+    b = 5;
+
+    if (a > b) {
+        print("a es mayor que b");
+    };
+
+    if (a < b) {
+        print("a es menor que b");
+    };
+
+    if (a == b) {
+        print("a es igual a b");
+    };
+
+    if (a != b) {
+        print("a es diferente de b");
+    };
+}
+end
+
+# test_expr_nested.txt
+program ExprNested;
+var
+    result : int;
+main {
+    result = ((5 + 3) * 2) - (10 / (2 + 3));
+    print("Resultado:", result);
+}
+end
+
+# test_expr_paren_error.txt
+program ExprParenError;
+var
+    result : int;
+main {
+    result = ((5 + 3) * 2 - (10 / (2 + 3);
+    print("Resultado:", result);
+}
+end
+
+# test_expr_simple.txt
+program ExprSimple;
+var
+    a, b, result : int;
+main {
+    a = 10;
+    b = 5;
+    result = a + b;
+    print("Suma:", result);
+
+    result = a - b;
+    print("Resta:", result);
+
+    result = a * b;
+    print("Multiplicación:", result);
+
+    result = a / b;
+    print("División:", result);
+}
+end
+
+# test_func_bad_params.txt
+program FuncBadParams;
+
+void sumar(a int, b float) [
+    var
+        c : float;
+    {
+        c = a + b;
+        print("Resultado:", c);
+    }
+];
+
+main {
+    sumar(5, 3.2);
+}
+end
+
+# test_func_call.txt
+program FuncCall;
+
+void saludar() [
+{
+    print("Hola!");
+}
+];
+
+main {
+    saludar();
+}
+end
+
+# test_func_empty.txt
+program FuncEmpty;
+
+void vacia() [
+];
+
+main {
+    vacia();
+}
+end
+
+# test_func_local_vars.txt
+program FuncLocalVars;
+
+void calculate() [
+    var
+        x : int;
+        y : float;
+    {
+        x = 10;
+        y = 2.5;
+        print("x * y =", x * y);
+    }
+];
+
+main {
+    calculate();
+}
+end
+
+# test_func_params.txt
+program FuncParams;
+
+void suma(a : int, b : int) [
+    var
+        result : int;
+    {
+        result = a + b;
+        print("Suma:", result);
+    }
+];
+
+main {
+    suma(5, 10);
+}
+end
+
+# test_func_simple.txt
+program FuncSimple;
+
+void displayMessage() [
+{
+    print("Hello from function");
+}
+];
+
+main {
+    displayMessage();
+}
+end
+
+# test_min_valid.txt
+program MinTest;
+main {
+    print("Hello World");
+}
+end
+
+# test_missing_end.txt
+program MissingEnd;
+main {
+    print("Falta end");
+}
+
+# test_missing_main.txt
+program MissingMain;
+end
+
+# test_missing_program.txt
+MinTest;
+main {
+    print("Hello World");
+}
+end
+
+# test_missing_semi.txt
+program MinTest
+main {
+    print("Hello World");
+}
+end
+
+# test_mixed_errors.txt
+program MixedErrors
+var
+    x : int;
+main {
+    x = +;
+    if x > 5 {
+        print("Error en condición");
+    }
+}
+end
+
+# test_mixed_statements.txt
+program MixedStatements;
+var
+    x, y : int;
+
+void doble(a : int) [
+    var
+        b : int;
+    {
+        b = a * 2;
+        print("Doble:", b);
+    }
+];
+
+main {
+    x = 4;
+    y = x + 1;
+    doble(y);
+    if (y > 3) {
+        print("y mayor que 3");
+    };
+    while (x > 0) do {
+        x = x - 1;
+    };
+}
+end
+
+# test_print.txt
+program PrintTest;
+main {
+    print("¡Hola mundo!");
+}
+end
+
+# test_print_multiple.txt
+program PrintMultiple;
+var
+    a : int;
+    b : float;
+main {
+    a = 10;
+    b = 3.14;
+    print("a =", a, "b =", b, "suma =", a + b);
+}
+end
+
+# test_vars_bad_type.txt
+program VarsBadType;
+var
+    x : string;
+main {
+    x = 10;
+}
+end
+
+# test_vars_missing_semi.txt
+program VarsMissingSemi;
+var
+    x : int
+main {
+    x = 5;
+}
+end
+
+# test_vars_missing_type.txt
+program VarsMissingType;
+var
+    x;
+main {
+    x = 3;
+}
+end
+
+# test_vars_multiple.txt
+program VarsMultiple;
+var
+    x, y, z : int;
+    a, b : float;
+main {
+    x = 10;
+    y = 20;
+    print("x + y =", x + y);
+}
+end
+
+# test_vars_simple.txt
+program VarsSimple;
+var
+    x : int;
+main {
+    x = 10;
+    print("x =", x);
+}
+end
+
