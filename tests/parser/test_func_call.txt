@@ -1,0 +1,12 @@
+program FuncCall;
+
+void saludar() [
+{
+    print("Hola!");
+}
+];
+
+main {
+    saludar();
+}
+end

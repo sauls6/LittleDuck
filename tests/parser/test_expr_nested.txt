@@ -1,0 +1,8 @@
+program ExprNested;
+var
+    result : int;
+main {
+    result = ((5 + 3) * 2) - (10 / (2 + 3));
+    print("Resultado:", result);
+}
+end

@@ -1,0 +1,25 @@
+program MixedStatements;
+var
+    x, y : int;
+
+void doble(a : int) [
+    var
+        b : int;
+    {
+        b = a * 2;
+        print("Doble:", b);
+    }
+];
+
+main {
+    x = 4;
+    y = x + 1;
+    doble(y);
+    if (y > 3) {
+        print("y mayor que 3");
+    };
+    while (x > 0) do {
+        x = x - 1;
+    };
+}
+end

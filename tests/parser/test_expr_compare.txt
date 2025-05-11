@@ -1,0 +1,24 @@
+program ExprCompare;
+var
+    a, b : int;
+main {
+    a = 10;
+    b = 5;
+
+    if (a > b) {
+        print("a es mayor que b");
+    };
+
+    if (a < b) {
+        print("a es menor que b");
+    };
+
+    if (a == b) {
+        print("a es igual a b");
+    };
+
+    if (a != b) {
+        print("a es diferente de b");
+    };
+}
+end

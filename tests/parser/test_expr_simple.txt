@@ -1,0 +1,19 @@
+program ExprSimple;
+var
+    a, b, result : int;
+main {
+    a = 10;
+    b = 5;
+    result = a + b;
+    print("Suma:", result);
+
+    result = a - b;
+    print("Resta:", result);
+
+    result = a * b;
+    print("Multiplicación:", result);
+
+    result = a / b;
+    print("División:", result);
+}
+end

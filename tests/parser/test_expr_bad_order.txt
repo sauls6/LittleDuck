@@ -1,0 +1,7 @@
+program ExprBadOrder;
+var
+    x : int;
+main {
+    x = * 5 + 3;
+}
+end

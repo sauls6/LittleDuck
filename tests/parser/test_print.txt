@@ -1,0 +1,5 @@
+program PrintTest;
+main {
+    print("¡Hola mundo!");
+}
+end

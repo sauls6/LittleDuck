@@ -1,0 +1,54 @@
+program AdvancedTest;
+
+var
+    counter : int;
+    pi : float;
+
+void printSquare(num : int) [
+    var
+        square : int;
+    {
+        square = num * num;
+        print(num, "al cuadrado es", square);
+    }
+];
+
+void printCube(num : int) [
+    var
+        cube : int;
+    {
+        cube = num * num * num;
+        print(num, "al cubo es", cube);
+    }
+];
+
+void processNumber(n : int) [
+{
+    if (n > 10) {
+        printSquare(n);
+    } else {
+        printCube(n);
+    };
+}
+];
+
+main {
+    counter = 0;
+    pi = 3.14159;
+
+    while (counter < 15) do {
+        print("Procesando número:", counter);
+        processNumber(counter);
+        counter = counter + 1;
+    };
+
+    if (pi > 3.0) {
+        print("Pi es mayor que 3");
+        if (pi < 4.0) {
+            print("Pi está entre 3 y 4");
+        } else {
+            print("Pi es mayor o igual a 4");
+        };
+    };
+}
+end

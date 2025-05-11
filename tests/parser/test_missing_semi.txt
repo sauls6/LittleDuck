@@ -1,0 +1,5 @@
+program MinTest
+main {
+    print("Hello World");
+}
+end

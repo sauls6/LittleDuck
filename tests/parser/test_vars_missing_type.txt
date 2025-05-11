@@ -1,0 +1,7 @@
+program VarsMissingType;
+var
+    x;
+main {
+    x = 3;
+}
+end

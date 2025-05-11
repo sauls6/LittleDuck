@@ -1,0 +1,12 @@
+program FuncSimple;
+
+void displayMessage() [
+{
+    print("Hello from function");
+}
+];
+
+main {
+    displayMessage();
+}
+end

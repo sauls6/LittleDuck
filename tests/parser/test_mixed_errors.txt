@@ -1,0 +1,10 @@
+program MixedErrors
+var
+    x : int;
+main {
+    x = +;
+    if x > 5 {
+        print("Error en condición");
+    }
+}
+end

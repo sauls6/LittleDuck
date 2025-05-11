@@ -1,0 +1,4 @@
+program MissingEnd;
+main {
+    print("Falta end");
+}

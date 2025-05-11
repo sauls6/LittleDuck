@@ -1,0 +1,10 @@
+program PrintMultiple;
+var
+    a : int;
+    b : float;
+main {
+    a = 10;
+    b = 3.14;
+    print("a =", a, "b =", b, "suma =", a + b);
+}
+end

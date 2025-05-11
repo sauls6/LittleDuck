@@ -1,0 +1,36 @@
+program CompleteTest;
+
+var
+    a, b, c : int;
+    x, y : float;
+
+void calculate(val : int, factor : float) [
+    var
+        result : float;
+    {
+        result = val * factor;
+        print("Resultado:", result);
+    }
+];
+
+main {
+    a = 5;
+    b = 10;
+    c = a + b;
+
+    x = 3.14;
+    y = 2.71;
+
+    if (c > 10) {
+        print("c es mayor que 10");
+        calculate(c, x);
+    } else {
+        print("c es menor o igual a 10");
+    };
+
+    while (a > 0) do {
+        print("a =", a);
+        a = a - 1;
+    };
+}
+end

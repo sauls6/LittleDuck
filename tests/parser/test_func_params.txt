@@ -1,0 +1,15 @@
+program FuncParams;
+
+void suma(a : int, b : int) [
+    var
+        result : int;
+    {
+        result = a + b;
+        print("Suma:", result);
+    }
+];
+
+main {
+    suma(5, 10);
+}
+end

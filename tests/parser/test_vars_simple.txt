@@ -1,0 +1,8 @@
+program VarsSimple;
+var
+    x : int;
+main {
+    x = 10;
+    print("x =", x);
+}
+end

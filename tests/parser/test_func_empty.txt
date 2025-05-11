@@ -1,0 +1,9 @@
+program FuncEmpty;
+
+void vacia() [
+];
+
+main {
+    vacia();
+}
+end

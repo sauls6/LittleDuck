@@ -1,0 +1,7 @@
+program AssignSimple;
+var
+    x : int;
+main {
+    x = 42;
+}
+end

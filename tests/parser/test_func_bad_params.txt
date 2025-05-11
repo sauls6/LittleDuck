@@ -1,0 +1,15 @@
+program FuncBadParams;
+
+void sumar(a int, b float) [
+    var
+        c : float;
+    {
+        c = a + b;
+        print("Resultado:", c);
+    }
+];
+
+main {
+    sumar(5, 3.2);
+}
+end

@@ -1,0 +1,7 @@
+program VarsBadType;
+var
+    x : string;
+main {
+    x = 10;
+}
+end

@@ -1,0 +1,17 @@
+program FuncLocalVars;
+
+void calculate() [
+    var
+        x : int;
+        y : float;
+    {
+        x = 10;
+        y = 2.5;
+        print("x * y =", x * y);
+    }
+];
+
+main {
+    calculate();
+}
+end
