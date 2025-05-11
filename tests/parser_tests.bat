@@ -37,7 +37,7 @@ test_advanced.txt
 for %%F in (%TEST_FILES%) do (
     echo.
     echo === Ejecutando prueba: %%F ===
-    python parser_runner.py tests/parser/%%F
+    python ../parser_runner.py parser/%%F
 )
 
 echo.
