@@ -129,10 +129,10 @@ term
     : (PLUS | MINUS)? (CTE_INT | CTE_FLOAT)
     ; */
 
-factor // expressions in parentheses cant have unary operators, but numbers and ids can
-    : LPAREN expression RPAREN
-    | (PLUS | MINUS)? ID
-    | (PLUS | MINUS)? (CTE_INT | CTE_FLOAT)
+factor 
+    : (PLUS | MINUS)? (LPAREN expression RPAREN
+                      | ID
+                      | (CTE_INT | CTE_FLOAT))
     ;
 
 /* 
