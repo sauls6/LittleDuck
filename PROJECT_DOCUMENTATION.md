@@ -139,7 +139,7 @@ Se diseñó un plan de pruebas para el analizador sintáctico, documentado en `d
 
 ## Entrega 3: Análisis Semántico
 
-**Fecha de entrega:** (Por definir, según el avance del curso)
+**Fecha de entrega:** 18 de mayo
 
 **Requisitos:**
 1.  Diseñar la Tabla de consideraciones semánticas (cubo semántico) para el lenguaje.
@@ -201,5 +201,102 @@ El cubo semántico define el tipo resultante de las operaciones binarias entre l
 | `=`      | `INTTYPE` | `FLTTYPE` | `ERROR` (Estrechamiento)  |
 
 Cualquier otra combinación de tipos y operadores no listada explícitamente se considera un `ERROR`. Por ejemplo, `INTTYPE + VOID` sería `ERROR`.
+
+### 2. Estructuras de Datos: Directorio de Funciones y Tablas de Variables
+
+Para manejar la información semántica del programa, se implementaron las siguientes estructuras de datos principales en `symbol_table.py`:
+
+*   **`VariableEntry`**: Una clase simple (o tupla nombrada) para almacenar información sobre una variable individual, principalmente su `type` (e.g., `Type.INT`, `Type.FLOAT`).
+*   **`FunctionEntry`**: Una clase para almacenar información sobre una función. Incluye:
+    *   `name`: Nombre de la función.
+    *   `return_type`: El tipo de dato que retorna la función (e.g., `Type.VOID`, `Type.INT`, `Type.FLOAT`).
+    *   `param_types`: Una lista ordenada de los tipos de sus parámetros.
+    *   `variables`: Un diccionario que actúa como la tabla de variables locales de esta función. Las claves son los nombres de las variables y los valores son instancias de `VariableEntry`.
+    *   `param_names`: Una lista ordenada de los nombres de sus parámetros (para referencia y validación).
+*   **`SymbolTable`**: La clase principal que gestiona los símbolos del programa. Contiene:
+    *   `functions`: Un diccionario que actúa como el Directorio de Funciones. Las claves son los nombres de las funciones y los valores son instancias de `FunctionEntry`.
+    *   `global_vars`: Un diccionario que actúa como la Tabla de Variables Globales. Las claves son los nombres de las variables globales y los valores son instancias de `VariableEntry`.
+    *   `current_scope_vars`: Una referencia a la tabla de variables del ámbito actual (puede ser `global_vars` o la tabla `variables` de una `FunctionEntry` específica).
+    *   `current_function_name`: El nombre de la función que se está procesando actualmente, para saber en qué ámbito local nos encontramos.
+
+**Justificación de las Estructuras:**
+*   **Diccionarios para Tablas:** Se eligieron diccionarios para el Directorio de Funciones y las Tablas de Variables (globales y locales) debido a su eficiencia en la búsqueda (tiempo promedio O(1)). Esto es crucial para las operaciones frecuentes de búsqueda de símbolos.
+*   **Clases `FunctionEntry` y `VariableEntry`:** Permiten agrupar la información relevante de cada símbolo de manera organizada y legible.
+*   **Gestión de Ámbito Explícita:** La `SymbolTable` maneja explícitamente el ámbito actual (`current_scope_vars` y `current_function_name`) para asegurar que las declaraciones y búsquedas de variables se realicen en el contexto correcto (global o local a una función).
+
+**Operaciones Principales:**
+
+*   **`SymbolTable.add_function(name, return_type)`**: Añade una nueva función al directorio. Verifica duplicados.
+*   **`SymbolTable.add_global_variable(name, type)`**: Añade una variable global. Verifica duplicados.
+*   **`FunctionEntry.add_param(name, type)`**: Añade un parámetro a una función específica y a su tabla de variables locales. Verifica duplicados dentro del ámbito local.
+*   **`FunctionEntry.add_variable(name, type)`**: Añade una variable local a una función específica. Verifica duplicados dentro del ámbito local.
+*   **`SymbolTable.lookup_variable(name)`**: Busca una variable, primero en el ámbito local actual (si existe) y luego en el ámbito global. Devuelve su `VariableEntry` o `None`.
+*   **`SymbolTable.lookup_function(name)`**: Busca una función en el directorio. Devuelve su `FunctionEntry` o `None`.
+*   **`SymbolTable.set_current_scope(function_name)`**: Cambia el ámbito actual al de la función especificada. Si `function_name` es `None` o una cadena especial (e.g., "global"), se establece el ámbito global.
+*   **`SymbolTable.get_variable_type(name)`**: Obtiene el tipo de una variable buscando en el ámbito actual y luego global.
+*   **`SymbolTable.get_function_return_type(name)`**: Obtiene el tipo de retorno de una función.
+
+### 3. Puntos Neurálgicos y Validaciones Semánticas
+
+El análisis semántico se implementa utilizando el patrón Visitor (`SemanticAnalyzer(LittleDuckVisitor)`) que recorre el árbol de análisis sintáctico generado por ANTLR. Los puntos clave donde se realizan las validaciones y se llenan las tablas son:
+
+*   **`visitProgram(ctx)`**:
+    *   Inicializa la `SymbolTable`.
+    *   Establece el ámbito global.
+    *   Visita las declaraciones de variables globales (`vars`) y funciones (`funcs`).
+    *   Establece el ámbito de la función `main` antes de visitar su cuerpo.
+*   **`visitVars(ctx)`**:
+    *   Itera sobre las declaraciones de variables.
+    *   Para cada variable, extrae su nombre y tipo.
+    *   Llama a `symbol_table.add_global_variable()` o `current_function.add_variable()` según el ámbito actual.
+    *   **Validación:** Detecta y reporta errores de re-declaración de variables en el mismo ámbito.
+*   **`visitFuncs(ctx)`**:
+    *   Extrae el nombre y tipo de retorno de la función.
+    *   Llama a `symbol_table.add_function()` para registrarla.
+    *   Establece el ámbito actual a esta nueva función (`symbol_table.set_current_scope(func_name)`).
+    *   Visita la lista de parámetros (`param_list`) y el cuerpo (`body`) de la función.
+    *   Al salir de la función, restaura el ámbito global (`symbol_table.set_current_scope(None)` o a un identificador de ámbito global).
+    *   **Validación:** Detecta y reporta errores de re-declaración de funciones.
+*   **`visitParam_list(ctx)`**:
+    *   Itera sobre los parámetros.
+    *   Para cada parámetro, extrae su nombre y tipo.
+    *   Llama a `current_function.add_param()` para registrar el parámetro en la `FunctionEntry` y en su tabla de variables locales.
+    *   **Validación:** Detecta y reporta errores de re-declaración de parámetros o de parámetros con el mismo nombre que una variable local ya declarada en ese (aún vacío) ámbito de función.
+*   **`visitAssignment(ctx: LittleDuckParser.AssignmentContext)`**:
+    *   Obtiene el nombre de la variable (LHS).
+    *   **Validación:** Verifica que la variable esté declarada (`symbol_table.lookup_variable(var_name)`). Reporta error si no existe.
+    *   Obtiene el tipo de la variable (`lhs_type`).
+    *   Visita la expresión (RHS) para obtener su tipo (`rhs_type`) de la pila de operandos.
+    *   **Validación:** Consulta el cubo semántico (`semantic_cube.check_assignment(lhs_type, rhs_type)`) para verificar la compatibilidad de tipos en la asignación. Reporta error si es `Type.ERROR`.
+*   **`visitExpression(ctx)`, `visitExp(ctx)`, `visitTerm(ctx)`, `visitFactor(ctx)`**:
+    *   **Manejo de Pila de Operandos y Tipos:** Estas reglas gestionan una pila de operandos y una pila de tipos.
+        *   Al encontrar un operando (ID, CTE_INT, CTE_FLOAT), se busca su tipo (si es ID) o se determina su tipo (si es constante) y se empuja a la pila de tipos.
+        *   Al encontrar un operador, se desapilan los tipos de los operandos y el operador.
+        *   **Validación:** Se consulta el cubo semántico (`semantic_cube.check_operation(op_type1, op_type2, operator)`) para obtener el tipo resultante. Si es `Type.ERROR`, se reporta un error de tipos incompatibles.
+        *   El tipo resultante se empuja de nuevo a la pila de tipos.
+    *   **`visitFactor`**:
+        *   Si es un ID: Busca la variable. **Validación:** Reporta error si no está declarada. Empuja su tipo a la pila de tipos.
+        *   Si es CTE_INT o CTE_FLOAT: Empuja `Type.INT` o `Type.FLOAT` a la pila de tipos.
+        *   Si es una expresión entre paréntesis: El tipo resultante de la sub-expresión ya estará en la cima de la pila de tipos.
+*   **`visitF_call(ctx: LittleDuckParser.F_callContext)`**:
+    *   Obtiene el nombre de la función.
+    *   **Validación:** Verifica que la función esté declarada (`symbol_table.lookup_function(func_name)`). Reporta error si no existe.
+    *   Obtiene la `FunctionEntry`.
+    *   Procesa los argumentos:
+        *   Visita cada expresión de argumento para obtener su tipo (de la pila de operandos).
+        *   Compara el número de argumentos proporcionados con el número de parámetros esperados.
+        *   Compara el tipo de cada argumento con el tipo del parámetro correspondiente.
+        *   **Validación:** Reporta errores por número incorrecto de argumentos o por tipos de argumentos incompatibles.
+    *   Si la función no es `VOID`, su tipo de retorno se podría empujar a la pila de operandos/tipos si la llamada a función fuera parte de una expresión (no es el caso en LittleDuck para `f_call` como statement, pero es una consideración general). Para `print`, se maneja directamente.
+*   **`visitPrint_stmt(ctx: LittleDuckParser.Print_stmtContext)`**:
+    *   Itera sobre las expresiones a imprimir.
+    *   Visita cada expresión para evaluarla y obtener su tipo (de la pila de operandos).
+    *   **Validación:** Aunque `print` puede aceptar cualquier tipo imprimible, se asegura que la expresión sea válida semánticamente. El tipo resultante de la expresión no necesita ser verificado contra otro tipo para `print` en sí, pero la expresión debe resolverse a un tipo válido (no `ERROR`).
+*   **`visitCondition(ctx: LittleDuckParser.ConditionContext)`**:
+    *   Visita la expresión de la condición.
+    *   **Validación:** El tipo resultante de la expresión (obtenido de la pila de operandos) debe ser compatible con una condición booleana (en LittleDuck, esto significa que el cubo semántico para operadores relacionales debe resultar en `INTTYPE`, que se interpreta como booleano). Reporta error si el tipo no es adecuado para una condición.
+*   **`visitCycle(ctx: LittleDuckParser.CycleContext)`**:
+    *   Similar a `visitCondition`, visita la expresión de la condición del ciclo.
+    *   **Validación:** El tipo resultante de la expresión debe ser compatible con una condición booleana.
 
 Este documento se irá actualizando con las entregas subsecuentes del proyecto.
